@@ -44,12 +44,12 @@
       padding-top:20px;
       }
     #S {
-      padding : 10px 20px;
-      font-size: 16px;
+      padding : 8px 5px;
+      font-size: 10px;
     }
     #O {
-      padding : 10px 20px;
-      font-size: 16px;
+      padding :8px 5px;
+      font-size: 10px;
     }
     </style>
   </head>
@@ -73,16 +73,7 @@
     <tr><td onclick="Select(7,1)"></td><td onclick="Select(7,2)"></td><td onclick="Select(7,3)"></td><td onclick="Select(7,4)"></td><td onclick="Select(7,5)"></td><td onclick="Select(7,6)"></td><td onclick="Select(7,7)"></td><td onclick="Select(7,8)"></td></tr>
     <tr><td onclick="Select(8,1)"></td><td onclick="Select(8,2)"></td><td onclick="Select(8,3)"></td><td onclick="Select(8,4)"></td><td onclick="Select(8,5)"></td><td onclick="Select(8,6)"></td><td onclick="Select(8,7)"></td><td onclick="Select(8,8)"></td></tr>
 </table>
-
-<div align="center" class="btn-group">
- <button id = 'S' onclick="s()">S</button>
- <button id = "O" onclick="o()">O</button>
-</div>
-<!-- <div align="center"><button id = "S" onclick = "s()" align = "center">S</button></div>
-<div align="center"><button id = "O" onclick = "o()" align = "center">O</button></div>
-<!-- <div align="center"><button id="start" onclick="Start()" align="center">START</button></div> -->
 <div align="center"><button onclick="history.go(0)">Restart</button></div>
-<!-- <h1 id = 'play'><h1> -->
 <script>
 var row = -1;
 var column = -1;
@@ -101,23 +92,30 @@ var data =[[0,0,0,0,0,0,0,0,0,0],
           [0,0,0,0,0,0,0,0,0,0],
           [0,0,0,0,0,0,0,0,0,0],
           [0,0,0,0,0,0,0,0,0,0]];
-
-// document.getElementById('play').innerHTML = "Player 1";
 document.getElementById("aa").style.color = "#126ae6";
 function Select(i, j){
-//   if ((row != -1 && column != -1) && (data[row-1][column-1] != 2 || data[row-1][column-1] != 1))
-//   {
-// alert("hello");
-//     // document.getElementById("tab").rows[row-1].cells[column-1].style.backgroundColor = "";
-//   }
-
+  if ((row != -1 && column != -1) )
+ {
+   document.getElementById("tab").rows[row-1].cells[column-1].innerHTML = "";
+}
   row = i;
   column = j;
-  document.getElementById("tab").rows[row-1].cells[column-1].style.backgroundColor = "#1b4f72";
+
+  document.getElementById("tab").rows[i-1].cells[j-1].innerHTML = '<class = "btn-group"><button id="S" onclick = "s()">S</button><button id = "O" onclick = "o()">O</button>';
+  for(var c = 1; c<9; c++){
+    for(var d = 1; d<9; d++){
+      if (data[c][d] == 1){
+        document.getElementById("tab").rows[c-1].cells[d-1].innerHTML = "S";
+      }else if (data[c][d] == 2) {
+        document.getElementById("tab").rows[c-1].cells[d-1].innerHTML = "O";
+      }
+
+    }
+  }
 }
 
 function s(){
-  if(data[row][column] != 2 && data[row][column] != 1){
+if(data[row][column] != 2 && data[row][column] != 1){
     document.getElementById("tab").rows[row-1].cells[column-1].innerHTML = "S";
     document.getElementById("tab").rows[row-1].cells[column-1].style.backgroundColor = "";
     data[row][column] = 1;
@@ -126,7 +124,7 @@ function s(){
   }
 }
 function o(){
-  if(data[row][column] != 2 && data[row][column] != 1){
+if(data[row][column] != 2 && data[row][column] != 1){
   document.getElementById("tab").rows[row-1].cells[column-1].innerHTML = "O";
   document.getElementById("tab").rows[row-1].cells[column-1].style.backgroundColor = "";
   data[row][column] = 2;
@@ -146,15 +144,25 @@ function updateScore(){
 function updatePlayer(){
   if(clickCount == 0){
     clickCount=1;
-    // document.getElementById('play').innerHTML = "Player 2";
     document.getElementById("bb").style.color = "#126ae6";
     document.getElementById("aa").style.color = "white";
+    for(var c = 1; c<9; c++){
+      for(var d = 1; d<9; d++){
+        document.getElementById("tab").rows[c-1].cells[d-1].style.backgroundColor = "";
+        document.getElementById("tab").rows[c-1].cells[d-1].style.color = "white";
+      }
+    }
   }
   else {
       clickCount=0;
-      // document.getElementById('play').innerHTML = "Player 1";
       document.getElementById("aa").style.color = "#126ae6";
       document.getElementById("bb").style.color = "white";
+      for(var c = 1; c<9; c++){
+        for(var d = 1; d<9; d++){
+          document.getElementById("tab").rows[c-1].cells[d-1].style.backgroundColor = "";
+          document.getElementById("tab").rows[c-1].cells[d-1].style.color = "white";
+        }
+      }
   }
 }
 function checkO(row,column){
@@ -296,9 +304,9 @@ function gameOver(){
           }
         }
       }
+
       if(game==0){
         if(player1Score>player2Score){
-          // document.body.innerHTML = 'game over';
           document.getElementById("tab").innerHTML = "<b>PLAYER 1 WON</b>";
           document.getElementById("S").style.display = "none";
           document.getElementById("O").style.display = "none";
@@ -306,16 +314,13 @@ function gameOver(){
 
         }else
           if(player1Score<player2Score){
-            // document.body.innerHTML = 'game over';
             document.getElementById("tab").innerHTML = "<b>PLAYER 2 WON</b>";
             document.getElementById("S").style.display = "none";
               document.getElementById("O").style.display = "none";
-            //alert("Player 2 won the game \n Score:"+player2Score);
         }else{
             document.getElementById("tab").innerHTML = "<b>GAME DRAW</b";
             document.getElementById("S").style.display = "none";
               document.getElementById("O").style.display = "none";
-            //alert("Game Draw \n Player 1 Score:"+player1Score+"\n Player 2 Score:"+player2Score);
 
           }
       }
